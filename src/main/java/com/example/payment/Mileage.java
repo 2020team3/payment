@@ -4,7 +4,6 @@ public class Mileage {
 	
 	Long id;
     Long orderId; 
-    Long payId;
     int mileage;
     String stateMessage;
 
@@ -39,13 +38,6 @@ public class Mileage {
 	public void setStateMessage(String stateMessage) {
 		this.stateMessage = stateMessage;
 	}
-
-	public Long getPayId() {
-		return payId;
-	}
-
-	public void setPayId(Long payId) {
-		this.payId = payId;
-	}
     
 }
+
