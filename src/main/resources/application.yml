@@ -1,0 +1,19 @@
+
+server:
+  port: 8086
+
+spring:
+  profiles: default
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        input:
+          group: pay
+          destination: team3vod
+          contentType: application/json
+        output:
+          destination: team3vod
+          contentType: application/json
