@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PostPersist;
 import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.PostUpdate;
 import javax.persistence.Table;
 
 import org.springframework.cloud.stream.messaging.Processor;
@@ -63,7 +63,7 @@ public class Payment {
     	}
     }
     
-    @PostUpdate
+        @PostUpdate
 	public void cancel() {
 		if (payStatus != null && payStatus.contentEquals("cancel")) {
 
