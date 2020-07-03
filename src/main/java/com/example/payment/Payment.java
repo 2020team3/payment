@@ -40,19 +40,19 @@ public class Payment {
 			e1.printStackTrace();
 		}
         
+    	if (payStatus != null && payStatus.contentEquals("ordered")) {
     	PaymentApproved paymentApproved = new PaymentApproved();
     	paymentApproved.setPurchaseId(this.getPurchaseId());
-    	paymentApproved.setPayId(this.getId());
     	paymentApproved.setMileage(this.getMileage());
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
-        
+
         try {
             json = objectMapper.writeValueAsString(paymentApproved);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("JSON format exception", e);
         }
-        
+
         Processor processor = PaymentApplication.applicationContext.getBean(Processor.class);
         MessageChannel outputChannel = processor.output();
 
@@ -60,9 +60,10 @@ public class Payment {
                 .withPayload(json)
                 .setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON)
                 .build()); 
+    	}
     }
     
-    @PreUpdate
+    @PostUpdate
 	public void cancel() {
 		if (payStatus != null && payStatus.contentEquals("cancel")) {
 
@@ -72,7 +73,6 @@ public class Payment {
 
 				PaymentCancelled paymentCancelled = new PaymentCancelled();
 				paymentCancelled.setPurchaseId(payment.getPurchaseId());
-				paymentCancelled.setPayId(payment.getId());
 				paymentCancelled.setMileage(this.getMileage());
 
 				ObjectMapper objectMapper = new ObjectMapper();
